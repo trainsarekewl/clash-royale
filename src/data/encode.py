@@ -1,10 +1,11 @@
 import json
 import numpy as np
-import pathlib as Path
+from pathlib import Path
 
-# convert all card ids from 0 to n-1
-def load_card_index(cards_json_path: str = "src/assets/cards.json"):
-    cards = json.loads(Path(cards_json_path)).read_text(encoding="utf-8")
+# create dictionary for converting card id to index from 0 to n-1
+def load_card_index_dict(cards_json_path: str = "assets/cards.json"):
+    data = json.loads(Path(cards_json_path).read_text(encoding="utf-8"))
+    cards = data["items"]
     index_map = {card["id"]: i for i, card in enumerate(cards)}
     return index_map, len(index_map)
 
