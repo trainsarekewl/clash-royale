@@ -9,29 +9,36 @@ import os
 load_dotenv()
 
 key = os.getenv("KEY")
-player_tag = quote(os.getenv("PLAYER_TAG"))
+player_tags = os.getenv("PLAYER_TAGS")
+player_tags_list = []
+data = []
+
+for tag in player_tags.split(","):
+    player_tags_list.append(quote(tag))
+
 base_url = "https://api.clashroyale.com/v1"
 
-endpoint = f"/players/{player_tag}/battlelog"
+for (i, tag) in enumerate(player_tags_list):
+    endpoint = f"/players/{tag}/battlelog"
 
-request = urllib.request.Request(
-    base_url + endpoint,
-    None,
-    headers={
-        "Authorization": f"Bearer {key}",
-        "Accept": "application/json",
-        "User-Agent": "python-urllib"
-    }
-)
+    request = urllib.request.Request(
+        base_url + endpoint,
+        None,
+        headers={
+            "Authorization": f"Bearer {key}",
+            "Accept": "application/json",
+            "User-Agent": "python-urllib"
+        }
+    )
 
 
-try:
-    response = urllib.request.urlopen(request).read().decode("utf-8")
-except HTTPError as e:
-    print(e.code, e.read().decode())
-    exit()
+    try:
+        response = urllib.request.urlopen(request).read().decode("utf-8")
+    except HTTPError as e:
+        print(e.code, e.read().decode())
+        continue
 
-data = json.loads(response)
+    data.extend(json.loads(response))
 
 battlelog_path = "../assets/battlelog_balloon.json"
 
@@ -53,7 +60,7 @@ target_deck = {"Musketeer", "Skeletons", "Giant Snowball", "Bomb Tower",
 
 # create battle log
 for battle in merged:
-    battle_id = battle.get("battleTime")
+    battle_id = battle["team"][0]["tag"] + ": " + battle.get("battleTime")
     battle_type = battle.get("type")
 
     battle_deck = {card["name"] for card in battle["team"][0]["cards"]}
@@ -66,5 +73,6 @@ for battle in merged:
         seen.add(battle_id)
         unique.append(battle)
 
+print(f"Battlelog size: {len(unique)}")
 with open(battlelog_path, "w", encoding = "utf-8") as f:
     json.dump(unique, f, indent=4)

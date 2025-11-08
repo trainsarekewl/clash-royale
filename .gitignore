@@ -1,2 +1,3 @@
 assets/battlelog_*.json
 .env
+.idea
