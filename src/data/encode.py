@@ -1,0 +1,16 @@
+import json
+import numpy as np
+import pathlib as Path
+
+# convert all card ids from 0 to n-1
+def load_card_index(cards_json_path: str = "src/assets/cards.json"):
+    cards = json.loads(Path(cards_json_path)).read_text(encoding="utf-8")
+    index_map = {card["id"]: i for i, card in enumerate(cards)}
+    return index_map, len(index_map)
+
+# if card is present in opponent deck, set the value at the card id to 1
+def one_hot_deck(card_ids: list[int], n_cards:int) -> np.ndarray:
+    vec = np.zeros(n_cards, dtype=np.float32)
+    for id in card_ids:
+        vec[id] = 1
+    return vec
