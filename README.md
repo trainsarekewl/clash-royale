@@ -1,2 +1,4 @@
-# cr
-i tried to use pytorch to predict win/lose for players with 2.9 balloon against certain deck but i have like zero data :D
+# Clash Royale Win/Loss Predictor with Pytorch
+## Overview
+
+This project trains a PyTorch model to predict whether a player using a 2.9 Balloon cycle deck will win or lose against a given opponent deck.
