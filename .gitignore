@@ -1,1 +1,2 @@
-src/key.txt
+assets/battlelog_*.json
+.env
