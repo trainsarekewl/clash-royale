@@ -31,7 +31,7 @@ def accuracy(predictions, labels):
 def main():
     card_index_dict, n_cards = load_card_index_dict()
 
-    dataset = BattlelogDataset("assets/battlelog_balloon.json", card_index_dict, n_cards)
+    dataset = BattlelogDataset("../exports/topplayers_battlelog_balloon.json", card_index_dict, n_cards)
 
     train_set, val_set, test_set = split_dataset(dataset)
 

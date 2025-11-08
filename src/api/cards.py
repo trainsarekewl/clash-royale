@@ -32,5 +32,5 @@ except HTTPError as e:
 
 data = json.loads(response)
 
-with open("../../src/assets/cards.json", "w", encoding = "utf-8") as f:
+with open("../../assets/cards.json", "w", encoding ="utf-8") as f:
     json.dump(data, f, indent=4)
