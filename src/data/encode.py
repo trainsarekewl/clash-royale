@@ -14,3 +14,6 @@ def one_hot_deck(card_ids: list[int], n_cards:int) -> np.ndarray:
     for id in card_ids:
         vec[id] = 1
     return vec
+
+def encode_opponent_deck(opponent_cards: list[int], n_cards: int) -> np.ndarray:
+    return one_hot_deck(opponent_cards, n_cards)
