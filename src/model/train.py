@@ -5,17 +5,18 @@ from torch.utils.data import DataLoader
 from data.encode import load_card_index_dict
 from data.dataset import BattlelogDataset
 from data.splits import split_dataset
+from pathlib import Path
 
 
 class winPredictor(nn.Module):
     def __init__(self, n_cards: int):
         super().__init__()
         self.network = nn.Sequential(
-            nn.Linear(n_cards, 256),
+            nn.Linear(n_cards, 128),
             nn.ReLU(),
-            nn.Linear(256, 128),
+            nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(128, 1),
+            nn.Linear(64, 1),
             nn.Sigmoid()
         )
 
@@ -31,9 +32,9 @@ def accuracy(predictions, labels):
 def main():
     card_index_dict, n_cards = load_card_index_dict()
 
-    print(card_index_dict)
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-    dataset = BattlelogDataset("../exports/topplayers_battlelog_balloon.json", card_index_dict, n_cards)
+    dataset = BattlelogDataset(BASE_DIR / "exports/battlelog_balloon.json", card_index_dict, n_cards)
 
     train_set, val_set, test_set = split_dataset(dataset)
 

@@ -3,6 +3,7 @@ import urllib.request
 import json
 from urllib.error import HTTPError
 from urllib.parse import quote
+from pathlib import Path
 
 from dotenv import load_dotenv
 import os
@@ -27,10 +28,15 @@ base_url = "https://api.clashroyale.com/v1"
 target_deck = {"Musketeer","Skeletons","Giant Snowball","Bomb Tower",
                "Balloon","Miner","Ice Golem","Barbarian Barrel"}
 
-ASSETS_MASTER = "../../assets/battlelog_balloon.json"
-EXPORT_MASTER = "../../exports/battlelog_balloon.json"
-EXPORT_ME = "../../exports/my_battlelog_balloon.json"
-EXPORT_OTHERS = "../../exports/topplayers_battlelog_balloon.json"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+ASSETS_DIR = BASE_DIR / "assets"
+EXPORTS_DIR = BASE_DIR / "exports"
+
+ASSETS_MASTER = ASSETS_DIR / "battlelog_balloon.json"
+EXPORT_MASTER = EXPORTS_DIR / "battlelog_balloon.json"
+EXPORT_ME = EXPORTS_DIR / "my_battlelog_balloon.json"
+EXPORT_OTHERS = EXPORTS_DIR / "topplayers_battlelog_balloon.json"
 
 
 def fetch_battlelog(tag_list):

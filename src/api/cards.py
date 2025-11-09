@@ -3,6 +3,7 @@ import json
 from urllib.error import HTTPError
 
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 
 load_dotenv()
@@ -32,5 +33,7 @@ except HTTPError as e:
 
 data = json.loads(response)
 
-with open("../../assets/cards.json", "w", encoding ="utf-8") as f:
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+with open(BASE_DIR / "assets/cards.json", "w", encoding ="utf-8") as f:
     json.dump(data, f, indent=4)
