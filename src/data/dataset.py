@@ -12,7 +12,12 @@ class BattlelogDataset(Dataset):
         # iterate through all battles
         for battles in data:
             # create array of opponent cards ids
-            opponent_cards = [card["id"] for card in battles["opponent"][0]["cards"]]
+            opponent_cards = []
+
+            for cards in battles["opponent"][0]["cards"]:
+                card_id = cards["id"]
+                is_evo = cards.get("evolutionLevel", 0) > 0
+                opponent_cards.append((card_id, is_evo))
 
             # turn into one hot vector
             x = encode_opponent_deck([card_index[cid] for cid in opponent_cards], n_cards)

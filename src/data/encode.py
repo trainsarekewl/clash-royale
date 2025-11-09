@@ -6,8 +6,21 @@ from pathlib import Path
 def load_card_index_dict(cards_json_path: str = "../assets/cards.json"):
     data = json.loads(Path(cards_json_path).read_text(encoding="utf-8"))
     cards = data["items"]
-    index_map = {card["id"]: i for i, card in enumerate(cards)}
-    return index_map, len(index_map)
+    index_map ={}
+    indx = 0;
+
+    for card in cards:
+        cid = card["id"]
+        evo = card.get("maxEvolutionLevel", 0)
+
+        index_map[(cid, False)] = indx
+        indx += 1
+
+        if (evo > 0):
+            index_map[(cid, True)] = indx
+            indx += 1
+
+    return index_map, indx
 
 # if card is present in opponent deck, set the value at the card id to 1
 def one_hot_deck(card_ids: list[int], n_cards:int) -> np.ndarray:
